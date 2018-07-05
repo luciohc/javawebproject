@@ -7,7 +7,7 @@ package br.com.drogaria.util;
 
 /**
  *
- * @author Lucio Henrique
+ * @author Lucio Henrique da Costa
  */
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
