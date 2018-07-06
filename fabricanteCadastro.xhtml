@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="fabacao" value="#{fabricanteBean.acao}"/>
+                <f:viewParam name="fabcod" value="#{fabricanteBean.codigo}"/>
+                <f:event listener="#{fabricanteBean.carregarCadastro}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+        
+        <ui:define name="conteudo">
+            <h:form id ="frmFabCad">
+                
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="FABRICANTES"/>
+                    </f:facet>
+                </p:toolbar>
+                
+                <h:panelGrid id ="pnlFabCadDados" columns="2">
+                    <p:outputLabel value="CÓDIGO:" />
+                    <p:inputText  size="10" readonly="true" value="#{fabricanteBean.fabricanteCadastro.codigo}"/>
+                    
+                    <p:outputLabel value="DESCRIÇÃO:"/>
+                    <p:inputText maxlength="50" size="30" value="#{fabricanteBean.fabricanteCadastro.descricao}"
+                                 readonly="#{fabricanteBean.acao == 'Excluir'}">
+                    
+                        <f:validateBean />
+                    </p:inputText>
+                </h:panelGrid>
+
+
+                <h:panelGrid columns="5">
+                    <p:commandButton value="NOVO" actionListener="#{fabricanteBean.novo()}" update=":frmFabCad:pnlFabCadDados" 
+                                     rendered="#{fabricanteBean.acao == 'Novo' and autenticacaoBean.funcionarioLogado.funcao != 'Balconista'}" />
+                    
+                    <p:commandButton value="SALVAR" actionListener="#{fabricanteBean.salvar}"
+                                     update=":msgGlobal :pnlFabCadDados:pnlFabCadDados"
+                                     rendered="#{fabricanteBean.acao == 'Salvar' and autenticacaoBean.funcionarioLogado.funcao != 'Balconista'}" />    
+                    
+                    <p:commandButton value="EXCLUIR" actionListener="#{fabricanteBean.excluir}" update=":msgGlobal"
+                                     rendered="#{fabricanteBean.acao == 'Excluir'}"/>
+                        
+                 
+                     
+                     <p:commandButton value="EDITAR" actionListener="#{fabricanteBean.editar}" update=":msgGlobal" 
+                                      rendered="#{fabricanteBean.acao == 'Editar'}"/> 
+                     <p:commandButton value="VOLTAR" action="/fabricantePesquisa.xhtml"/> 
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+        '
+    </ui:composition>
+
+</html>

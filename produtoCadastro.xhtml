@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="proacao" value="#{produtoBean.acao}"/>
+                <f:viewParam name="procod" value="#{produtoBean.codigo}"/>
+                <f:event listener="#{produtoBean.carregarCadastro}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+        
+        <ui:define name="conteudo">
+            <h:form id ="frmProCad">
+
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="Produtos"/>
+                    </f:facet>
+                </p:toolbar>
+
+                <h:panelGrid id ="pnlProCadDados" columns="2">                    
+                    <p:outputLabel value="Código:" />
+                    <p:inputText  size="10" readonly="true" value="#{produtoBean.produtoCadastro.codigo}"/>
+
+                    <p:outputLabel value="Descrição:"/>
+                    <p:inputText maxlength="50" size="30" value="#{produtoBean.produtoCadastro.descricao}"
+                                 readonly="#{produtoBean.acao == 'Excluir'}">
+
+                        <f:validateBean />
+                    </p:inputText>
+                    
+                    <p:outputLabel value="Preço:"/>
+                    <p:inputText size="20" value="#{produtoBean.produtoCadastro.preco}"
+                                 readonly="#{produtoBean.acao == 'Excluir'}">
+
+                        <f:validateBean />
+                    </p:inputText>     
+                    
+                    <p:outputLabel value="Quantidade:"/>
+                    <p:inputText size="20" value="#{produtoBean.produtoCadastro.quantidade}"
+                                 readonly="#{produtoBean.acao == 'Excluir'}">
+
+                        <f:validateBean />
+                    </p:inputText> 
+                    
+                    <p:outputLabel value="Fabricante:"/>
+                    <p:selectOneMenu value="#{produtoBean.produtoCadastro.fabricante}"
+                                     converter="fabricanteConverter">
+                        <f:selectItem itemValue="" itemLabel="Selecione um fabricante"/>
+                        <f:selectItems value="#{produtoBean.listaFabricantes}" var="fabricante"
+                                      itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}"/>
+                        <f:validateBean />
+                        
+                    </p:selectOneMenu>> 
+                    
+                    
+                </h:panelGrid>
+
+
+                <h:panelGrid columns="5">                    
+                    <p:commandButton value="Novo" actionListener="#{produtoBean.novo()}" update=":frmProCad:pnlProCadDados" 
+                                     rendered="#{produtoBean.acao == 'Novo'}"/>
+                    
+                    <p:commandButton value="Salvar" actionListener="#{produtoBean.salvar}"
+                                     update=":msgGlobal :pnlProCadDados:pnlProCadDados"
+                                     rendered="#{produtoBean.acao == 'Salvar'}"/>    
+
+                    <p:commandButton value="Excluir" actionListener="#{produtoBean.excluir}" update=":msgGlobal"
+                                     rendered="#{produtoBean.acao == 'Excluir'}"/>
+
+                    <p:commandButton value="Editar" actionListener="#{produtoBean.editar}" update=":msgGlobal" 
+                                     rendered="#{produtoBean.acao == 'Editar'}"/> 
+
+                    <p:commandButton value="Voltar" action="/produtoPesquisa.xhtml"/>
+                    
+                </h:panelGrid>
+
+            </h:form>
+        </ui:define>
+        '
+    </ui:composition>
+
+</html>

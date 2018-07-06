@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{produtoBean.carregarPesquisa}" type ="preRenderView"/>
+            </f:metadata>
+
+        </ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="Produtos"/>
+                    </f:facet>
+                </p:toolbar>
+
+                <p:dataTable id=""emptyMessage="Nenhum registro encontrado" value="#{produtoBean.listaProdutos}"
+                             filteredValue="#{produtoBean.listaProdutosFiltrados}" var="produto"
+                             rows="8" paginator="true">
+
+                    <f:facet name="header" >
+                        <h:commandLink>
+                            <p:graphicImage library="images" name="excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="tbl" fileName="cars" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage library="images" name="pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="tbl" fileName="cars" encoding="ISO-8859-1"/>
+                        </h:commandLink>
+
+                    </f:facet>
+
+
+                    <f:facet name="footer" >                    
+                        <p:commandButton value="Novo" action="/produtoCadastro.xhtml"/>
+                        <f:param name="proacao" value="Novo"/>
+                    </f:facet>
+
+                    <p:column headerText="Código" style="width: 5%;">
+                        <h:outputText value="#{produto.codigo}"/>
+                    </p:column>
+
+                    <p:column headerText="Descrição" sortBy="#{produto.descricao}">
+                        <h:outputText value="#{produto.descricao}"/>
+                    </p:column>
+
+                    <p:column headerText="Preço" sortBy="#{produto.preco}">
+                        <h:outputText value="#{produto.preco}">
+                            <f:convertNumber pattern="0.00"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Quantidade" sortBy="#{produto.quantidade}" style="width: 5%;">
+                        <h:outputText value="#{produto.quantidade}"/>
+                    </p:column>
+
+                    <p:column headerText="Fabricante" filterBy="#{produto.fabricante.descricao}" sortBy="#{produto.fabricante.descricao}">
+                        <h:outputText value="#{produto.fabricante.descricao}"/>
+                    </p:column>
+
+                    <p:column headerText="Opções" style="width:  15%;" exportable="false">
+                        <p:commandButton value="Excluir" action="/produtoCadastro.xhtml">
+                            <f:param name="prodacao" value="Excluir"/>
+                            <f:param name="procod" value="#{produto.codigo}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Editar" action="/produtoCadastro.xhtml">
+                            <f:param name="procod" value="Editar"/>
+                            <f:param name="procod" value="#{produto.codigo}"/>
+                        </p:commandButton>
+
+                    </p:column>                     
+
+                </p:dataTable>             
+            </h:form> 
+
+        </ui:define>
+    </ui:composition>
+
+
+
+
+</html>

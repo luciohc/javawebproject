@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{fabricanteBean.carregar()}" type ="preRenderView"/>
+            </f:metadata>
+
+        </ui:define>
+        <ui:define name="conteudo">
+
+            <h:form>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="Fabricantes"/>
+                    </f:facet>
+                </p:toolbar>
+
+                <p:dataTable emptyMessage="Nenhum registro encontrado" value="#{fabricanteBean.listaFabricantes}"
+                             filteredValue="#{fabricanteBean.listaFabricantesFiltrados}" var="fabricante"
+                             rows="10" paginator="true">
+                    
+                    <f:facet name="footer" >
+                        <p:commandButton value="Novo" action="/fabricanteCadastro.xhtml"/>
+                        <f:param name="fabacao" value="Novo"/>
+                    </f:facet>
+                    
+                    <p:column headerText="Código">
+                        <h:outputText value="#{fabricante.codigo}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Descrição" filterBy="#{fabricante.descricao}" sortBy="#{fabricante.descricao}">
+                        <h:outputText value="#{fabricante.descricao}"/>
+                    </p:column>
+
+                    <p:column headerText="Opções">
+                        <p:commandButton value="Excluir" action="/fabricanteCadastro.xhtml">
+                            <f:param name="fabacao" value="Excluir"/>
+                            <f:param name="fabcod" value="#{fabricante.codigo}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Editar" action="/fabricanteCadastro.xhtml">
+                            <f:param name="fabacao" value="Editar"/>
+                            <f:param name="fabcod" value="#{fabricante.codigo}"/>
+                        </p:commandButton>
+                            
+                    </p:column>                     
+
+                </p:dataTable>             
+            </h:form> 
+
+        </ui:define>
+    </ui:composition>
+
+</html>

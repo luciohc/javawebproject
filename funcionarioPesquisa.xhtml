@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="conteudo">
+            <h:form>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="FUNCIONÁRIOS"/>
+                    </f:facet>
+                </p:toolbar>
+                <h:panelGrid columns="2">
+
+
+                    <p:outputLabel value="DESCRIÇÃO"/>
+                    <p:inputText maxlength="50" size="30"/>
+
+                    <p:outputLabel value="CPF"/>
+                    <p:inputMask mask="999.999.999-99" size="20"/>
+
+                    <p:outputLabel value="FUNÇÃO"/>
+                    <p:selectOneMenu>                       
+                        <f:selectItem itemLabel="SELECIONE UMA FUNÇÃO"/>    
+                        <f:selectItem itemLabel="ADMINISTRADOR"/>    
+                        <f:selectItem itemLabel="GERENTE"/>    
+                        <f:selectItem itemLabel="BALCONISTA"/>    
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="BUSCAR"/>
+                    <p:commandButton value="NOVO" action="/funcionarioCadastro.xhtml"/>
+                </h:panelGrid>
+                <p:dataTable emptyMessage="Nenhum registro encontrado">
+                    <p:column headerText="CÓDIGO">
+
+                    </p:column>
+                    <p:column headerText="CPF" filterBy="#{funcionario.cpf}" sortBy="#{funcionario.cpf}">
+                        <h:outputText value="#{funcionario.cpf}"/>
+
+                    </p:column>
+
+                    <p:column headerText="FUNÇÃO" filterBy="#{funcionario.funcao}" sortBy="#{funcionario.funcao}">
+                        <h:outputText value="#{funcionario.funcao}"/>
+
+                    </p:column>    
+                    <p:column headerText="OPÇÕES">
+
+                    </p:column>    
+
+                </p:dataTable>             
+            </h:form> 
+
+        </ui:define>
+    </ui:composition>
+</html>
